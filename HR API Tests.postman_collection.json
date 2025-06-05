@@ -8,6 +8,22 @@
 	"item": [
 		{
 			"name": "Consultar empeados por ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Código 200 - Lista de usuarios\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    let data = pm.response.json();\r",
+							"    pm.expect(data.length).to.be.above(0);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -29,6 +45,22 @@
 		},
 		{
 			"name": "Crear empleados",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"usuario creado correctamente\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    let date = pm.response.json();\r",
+							"    pm.expect(date).to.have.property(\"id\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -60,6 +92,22 @@
 		},
 		{
 			"name": "Actualizar empleados",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Usuario actualizado correctamente.\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    let data = pm.response.json();\r",
+							"    pm.expect(data.name).to.equal(\"Eduardo Benitez Actualizado\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -91,6 +139,20 @@
 		},
 		{
 			"name": "Eliminar empleados",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Usuario eliminado con exito (falso)\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
