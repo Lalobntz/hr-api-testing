@@ -22,19 +22,25 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
 				}
 			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao.riker.replit.dev/employees/",
-					"protocol": "https",
+					"raw": "{{base_url}}/employees/",
 					"host": [
-						"02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao",
-						"riker",
-						"replit",
-						"dev"
+						"{{base_url}}"
 					],
 					"path": [
 						"employees",
@@ -45,15 +51,15 @@
 			"response": []
 		},
 		{
-			"name": "Crear empleados",
+			"name": "Crear empleado",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
 							"const jsonData = pm.response.json();\r",
-							"\r",
-							"pm.test(`usuario \"${jsonData.name}\" creado correctamente`, () => {\r",
+							"pm.collectionVariables.set(\"id\", jsonData.id);\r",
+							"pm.test(`usuario \"${jsonData.name}\" creado correctamente con id \"${jsonData.id}\"`, () => {\r",
 							"    pm.response.to.have.status(201);\r",
 							"    let data = pm.response.json();\r",
 							"    pm.expect(data).to.have.property(\"id\");\r",
@@ -87,13 +93,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao.riker.replit.dev/employees/",
-					"protocol": "https",
+					"raw": "{{base_url}}/employees/",
 					"host": [
-						"02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao",
-						"riker",
-						"replit",
-						"dev"
+						"{{base_url}}"
 					],
 					"path": [
 						"employees",
@@ -104,15 +106,59 @@
 			"response": []
 		},
 		{
-			"name": "Actualizar empleados",
+			"name": "Validar que se creó el empleado",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
 							"const jsonData = pm.response.json();\r",
-							"\r",
-							"pm.test(`Usuario \"${jsonData.name}\" actualizó su rol correctamente a \"${jsonData.role}\".`, () => {\r",
+							"pm.test(`Usuario \"${jsonData.name}\" con id \"${jsonData.id}\" si existe`, () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    let data = pm.response.json();\r",
+							"    pm.expect(data).to.have.property(\"id\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/employees/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"employees",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar empleado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"pm.test(`Usuario \"${jsonData.name}\" con id \"${jsonData.id}\" actualizó su rol correctamente a \"${jsonData.role}\".`, () => {\r",
 							"    pm.response.to.have.status(200);\r",
 							"    let data = pm.response.json();\r",
 							"    pm.expect(data).to.have.property(\"id\");\r",
@@ -146,17 +192,48 @@
 					}
 				},
 				"url": {
-					"raw": "https://02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao.riker.replit.dev/employees/0e280adb-e2bd-4598-89cf-2fa9705a9547",
-					"protocol": "https",
+					"raw": "{{base_url}}/employees/{{id}}",
 					"host": [
-						"02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao",
-						"riker",
-						"replit",
-						"dev"
+						"{{base_url}}"
 					],
 					"path": [
 						"employees",
-						"0e280adb-e2bd-4598-89cf-2fa9705a9547"
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validar que se actualizó el empleado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"pm.test(`Usuario \"${jsonData.name}\" con id \"${jsonData.id}\" actualizó su rol a \"${jsonData.role}\"`, () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    let data = pm.response.json();\r",
+							"    pm.expect(data).to.have.property(\"id\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/employees/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"employees",
+						"{{id}}"
 					]
 				}
 			},
@@ -178,6 +255,16 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
 				}
 			],
 			"request": {
@@ -190,21 +277,78 @@
 					}
 				],
 				"url": {
-					"raw": "https://02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao.riker.replit.dev/employees/eddcd3df-145f-4547-99e7-84470419a6d0",
-					"protocol": "https",
+					"raw": "{{base_url}}/employees/{{id}}",
 					"host": [
-						"02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao",
-						"riker",
-						"replit",
-						"dev"
+						"{{base_url}}"
 					],
 					"path": [
 						"employees",
-						"eddcd3df-145f-4547-99e7-84470419a6d0"
+						"{{id}}"
 					]
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Validar que ya no existe el empleado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"pm.test(`${jsonData.message}`, () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/employees/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"employees",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "EmployeeId",
+			"value": ""
 		}
 	]
 }

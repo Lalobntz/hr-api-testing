@@ -85,6 +85,26 @@ app.get("/employees", (req, res) => {
 
 /**
  * @swagger
+ * /employees:
+ *   get:
+ *     summary: Obtener un empleado por ID
+ *     responses:
+ *       200:
+ *         description: Empleado encontrado
+ */
+app.get("/employees/:id", (req, res) => {
+    const id = req.params.id;
+    const employee = employees.find((p) => p.id === id);
+
+    if (employee) {
+        res.json(employee);
+    } else {
+        res.status(404).json({ message: "Empleado no encontrado: " + id });
+    }
+});
+
+/**
+ * @swagger
  * /employees/{id}:
  *     post:
  *         summary: Crear un empleado por ID
@@ -112,15 +132,15 @@ app.post("/employees", (req, res) => {
             projects: [],
         };
         employees.push(newEmp);
-    });
 
-    const jsonResponse = {
-        id: uuidv4(),
-        message: "Empleado creados exitosamente",
-        name: newEmployee.name,
-        role: newEmployee.role,
-    };
-    res.status(201).json(jsonResponse);
+        const jsonResponse = {
+            id: newEmp.id,
+            message: "Empleado creados exitosamente",
+            name: newEmployee.name,
+            role: newEmployee.role,
+        };
+        res.status(201).json(jsonResponse);
+    });
 });
 
 /**
@@ -165,7 +185,7 @@ app.delete("/employees/:id", (req, res) => {
     const id = req.params.id;
     employees = employees.filter((p) => p.id !== id);
     const jsonResponse = {
-        id: uuidv4(),
+        id: id,
         message: "Empleado eliminado",
     };
     res.json(jsonResponse);
