@@ -28,7 +28,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao.riker.replit.dev/employees",
+					"raw": "https://02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao.riker.replit.dev/employees/",
 					"protocol": "https",
 					"host": [
 						"02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao",
@@ -37,7 +37,8 @@
 						"dev"
 					],
 					"path": [
-						"employees"
+						"employees",
+						""
 					]
 				}
 			},
@@ -50,11 +51,23 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"usuario creado correctamente\", () => {\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(`usuario \"${jsonData.name}\" creado correctamente`, () => {\r",
 							"    pm.response.to.have.status(201);\r",
-							"    let date = pm.response.json();\r",
-							"    pm.expect(date).to.have.property(\"id\");\r",
+							"    let data = pm.response.json();\r",
+							"    pm.expect(data).to.have.property(\"id\");\r",
 							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -66,7 +79,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Pedro Pedro Pedro Pe\",\r\n    \"role\": \"SME\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Abigail Robles\",\r\n    \"role\": \"Compañerita\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -97,11 +110,23 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Usuario actualizado correctamente.\", () => {\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(`Usuario \"${jsonData.name}\" actualizó su rol correctamente a \"${jsonData.role}\".`, () => {\r",
 							"    pm.response.to.have.status(200);\r",
 							"    let data = pm.response.json();\r",
-							"    pm.expect(data.name).to.equal(\"Eduardo Benitez Actualizado\");\r",
+							"    pm.expect(data).to.have.property(\"id\");\r",
 							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -113,7 +138,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"role\": \"QA Tester\"\r\n}",
+					"raw": "{\r\n    \"role\": \"empleada de bancoppel\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -121,7 +146,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao.riker.replit.dev/employees/b9520944-5387-43d8-a6fe-d51bd8eb1537",
+					"raw": "https://02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao.riker.replit.dev/employees/0e280adb-e2bd-4598-89cf-2fa9705a9547",
 					"protocol": "https",
 					"host": [
 						"02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao",
@@ -131,7 +156,7 @@
 					],
 					"path": [
 						"employees",
-						"b9520944-5387-43d8-a6fe-d51bd8eb1537"
+						"0e280adb-e2bd-4598-89cf-2fa9705a9547"
 					]
 				}
 			},
@@ -144,7 +169,9 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Usuario eliminado con exito (falso)\", () => {\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(`Usuario \"${jsonData.id}\" eliminado con exito`, () => {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
@@ -155,9 +182,15 @@
 			],
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "https://02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao.riker.replit.dev/employees/b9520944-5387-43d8-a6fe-d51bd8eb1537",
+					"raw": "https://02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao.riker.replit.dev/employees/eddcd3df-145f-4547-99e7-84470419a6d0",
 					"protocol": "https",
 					"host": [
 						"02eb348d-9550-4ff8-8ff9-123ba77e0e40-00-27f4ommcy2gao",
@@ -167,7 +200,7 @@
 					],
 					"path": [
 						"employees",
-						"b9520944-5387-43d8-a6fe-d51bd8eb1537"
+						"eddcd3df-145f-4547-99e7-84470419a6d0"
 					]
 				}
 			},

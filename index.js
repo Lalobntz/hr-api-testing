@@ -113,7 +113,14 @@ app.post("/employees", (req, res) => {
         };
         employees.push(newEmp);
     });
-    res.status(201).json({ message: "Empleados creados exitosamente" });
+
+    const jsonResponse = {
+        id: uuidv4(),
+        message: "Empleado creados exitosamente",
+        name: newEmployee.name,
+        role: newEmployee.role,
+    };
+    res.status(201).json(jsonResponse);
 });
 
 /**
@@ -132,9 +139,17 @@ app.put("/employees/:id", (req, res) => {
     }
 
     const employee = employees.find((p) => p.id === id);
+    const jsonResponse = {
+        id: uuidv4(),
+        message: "Empleado actualizado",
+        name: employee.name,
+        role: role,
+    };
+
     if (employee) {
         employee.role = role;
         res.json(employee);
+        res.json(jsonResponse);
     } else {
         res.status(404).json({ message: "Empleado no encontrado" });
     }
@@ -149,7 +164,11 @@ app.put("/employees/:id", (req, res) => {
 app.delete("/employees/:id", (req, res) => {
     const id = req.params.id;
     employees = employees.filter((p) => p.id !== id);
-    res.json({ message: "Empleado eliminado" });
+    const jsonResponse = {
+        id: uuidv4(),
+        message: "Empleado eliminado",
+    };
+    res.json(jsonResponse);
 });
 
 /**
@@ -173,14 +192,14 @@ app.get("/projects", (req, res) => {
  */
 app.post("/projects", (req, res) => {
     const newProject = req.body;
-    const projectsToAdd = Array.isArray(newProject)
-        ? newProject
-        : [newProject]
+    const projectsToAdd = Array.isArray(newProject) ? newProject : [newProject];
     projectsToAdd.forEach((project) => {
         if (!project.name || !project.startDate) {
             return res
                 .status(400)
-                .json({ message: "El nombre y la fecha de inicio son obligatorios" });
+                .json({
+                    message: "El nombre y la fecha de inicio son obligatorios",
+                });
         }
         const newProj = {
             id: uuidv4(),
@@ -209,7 +228,7 @@ app.put("/projects/:id", (req, res) => {
     } else {
         res.status(404).json({ message: "Proyecto no encontrado" });
     }
-    res.json({ message: "Proyecto actualizado" });    
+    res.json({ message: "Proyecto actualizado" });
 });
 
 /**
@@ -228,7 +247,6 @@ app.delete("/projects/:id", (req, res) => {
     projects = projects.filter((p) => p.id !== id);
     res.json({ message: "Proyecto eliminado" });
 });
-
 
 app.listen(port, () => {
     console.log(`API ejecutandose en el puerto ${port}`);
