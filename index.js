@@ -262,6 +262,7 @@ app.put("/projects/:id", (req, res) => {
  *       404:
  *         description: Proyecto no encontrado
  */
+
 app.delete("/projects/:id", (req, res) => {
     const id = req.params.id;
     projects = projects.filter((p) => p.id !== id);
